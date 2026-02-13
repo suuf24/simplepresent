@@ -22,6 +22,12 @@
             --wrong-color: #ff7675;
             /* Salmon Red */
             --button-hover: #dfe6e9;
+
+            /* Fluid Typography Variables (MAXIMIZED FOR TV) */
+            --fs-title: clamp(2rem, 5vh, 4rem);
+            --fs-question: clamp(3rem, 7vh, 8rem);
+            --fs-option: clamp(2rem, 5vh, 5rem);
+            --fs-nav: clamp(1.2rem, 2vh, 2rem);
         }
 
         * {
@@ -104,44 +110,49 @@
         }
 
         /* Header */
+        /* Header */
         header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        /* Blue Progress Line */
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--accent-color);
+            transition: width 0.3s ease;
+            border-radius: 4px;
         }
 
         h1 {
-            font-size: 2.5rem;
+            font-size: var(--fs-title);
             margin-bottom: 30px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            line-height: 1.2;
         }
 
         .quiz-info {
-            display: flex;
-            justify-content: space-between;
-            font-size: 1.1rem;
-            font-weight: 600;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 10px 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
+            display: none;
+            /* Hide old counter */
         }
 
         /* Question Section */
-        .question-card {
-            display: none;
-            /* Hidden by default */
-            animation: fadeIn 0.5s ease;
-        }
-
-        .question-card.active {
-            display: block;
-        }
-
         .question-text {
-            font-size: 1.4rem;
-            margin-bottom: 25px;
-            line-height: 1.5;
-            font-weight: 500;
+            font-size: var(--fs-question);
+            margin-bottom: 30px;
+            line-height: 1.3;
+            font-weight: 600;
         }
 
         /* Options Grid */
@@ -153,16 +164,18 @@
         .option-btn {
             background: #ffffff;
             border: 2px solid #dfe6e9;
-            padding: 15px 20px;
+            padding: 20px;
             border-radius: 12px;
             color: var(--text-color);
             text-align: left;
-            font-size: 1.1rem;
+            font-size: var(--fs-option);
             cursor: pointer;
             transition: all 0.2s ease;
             position: relative;
             overflow: hidden;
             outline: none;
+            display: flex;
+            align-items: center;
         }
 
         .option-btn:hover {
@@ -224,25 +237,49 @@
             margin-bottom: 20px;
         }
 
+        /* Result Modal / Overlay */
+        .result-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.98);
+            z-index: 9999;
+            /* High z-index */
+            overflow-y: auto;
+            /* Scrollable */
+            padding: 40px;
+            box-sizing: border-box;
+            /* Ensure padding doesn't overflow */
+            animation: fadeIn 0.3s ease;
+        }
+
+        .result-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
         .score-circle {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
+            width: 200px;
+            height: 200px;
             border-radius: 50%;
             background: #ffffff;
-            border: 4px solid var(--accent-color);
+            border: 6px solid var(--accent-color);
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 3rem;
+            font-size: 4rem;
             font-weight: bold;
-            margin: 0 auto 30px;
-            box-shadow: 0 0 30px rgba(9, 132, 227, 0.2);
+            margin: 20px auto;
+            box-shadow: 0 10px 30px rgba(9, 132, 227, 0.3);
             color: var(--accent-color);
         }
 
         .score-text {
-            font-size: 1.5rem;
+            font-size: 2rem;
             margin-bottom: 30px;
         }
 
@@ -337,6 +374,61 @@
                 opacity: 1;
                 transform: scale(1);
             }
+        }
+
+        /* Review Modal Styles */
+        .review-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.98);
+            z-index: 10000;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .review-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--text-color);
+        }
+
+        .close-review-btn {
+            background: none;
+            border: none;
+            font-size: 2.5rem;
+            line-height: 1;
+            cursor: pointer;
+            color: #636e72;
+            padding: 0 10px;
+        }
+
+        .close-review-btn:hover {
+            color: var(--wrong-color);
         }
 
         /* Navigation Grid */
@@ -444,6 +536,224 @@
         .social-whatsapp:hover {
             color: #25D366;
         }
+
+        /* --- DESKTOP LAYOUT (TV / CLASSROOM MODE > 1024px) --- */
+        @media (min-width: 1024px) {
+            body {
+                padding: 0;
+                overflow: hidden;
+                /* Prevent scroll on TV */
+            }
+
+            .quiz-container {
+                width: 100vw;
+                height: 100vh;
+                max-width: none;
+                border: none;
+                border-radius: 0;
+                padding: 40px 60px;
+                display: grid;
+                grid-template-rows: auto 1fr auto;
+                /* Header, Content, Bottom Bar */
+                grid-template-columns: 1fr;
+                gap: 20px;
+                align-items: center;
+                backdrop-filter: none;
+                background: rgba(255, 255, 255, 0.95);
+            }
+
+            header {
+                grid-row: 1 / 2;
+                margin-bottom: 0;
+                display: block;
+                /* Stack title and progress */
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+
+            h1 {
+                font-size: clamp(2rem, 4vh, 3rem);
+                margin-bottom: 10px;
+                text-align: left;
+            }
+
+            .progress-container {
+                height: 12px;
+                /* Thicker on TV */
+                margin-top: 20px;
+                /* Separator from Title */
+            }
+
+            #quiz-area {
+                grid-row: 2 / 3;
+                width: 100%;
+                max-width: 1200px;
+                /* Limit width for readability */
+                margin: 0 auto;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                /* Vertically Center */
+                height: 100%;
+                padding-top: 5vh;
+                /* Push down from blue line */
+            }
+
+            .question-text {
+                font-size: clamp(3rem, 6vh, 6rem);
+                /* Massive TV Font */
+                text-align: center;
+                margin-bottom: 4vh;
+                font-weight: 700;
+                color: #2d3436;
+            }
+
+            .options-grid {
+                display: grid;
+                gap: 20px;
+                width: 80%;
+                margin: 0 auto;
+            }
+
+            .option-btn {
+                font-size: clamp(2rem, 4vh, 3.5rem);
+                /* Massive Options */
+                padding: 1.5vh 3vw;
+                border-width: 3px;
+                text-align: center;
+                justify-content: center;
+            }
+
+            /* Bottom Navigation Bar */
+            .sidebar-wrapper {
+                grid-row: 3 / 4;
+                display: grid;
+                grid-template-columns: 1fr auto;
+                gap: 30px;
+                align-items: center;
+                padding-top: 20px;
+                border-top: 2px solid #eee;
+                position: static;
+                /* Not sticky, just in grid */
+            }
+
+            #game-nav {
+                grid-template-columns: repeat(10, 1fr);
+                /* Single row of 10 */
+                gap: 10px;
+            }
+
+            .nav-box {
+                font-size: 1.2rem;
+                padding: 10px;
+                border-radius: 8px;
+            }
+
+            .controls {
+                min-width: 200px;
+            }
+
+            .btn {
+                font-size: 1.5rem;
+                padding: 15px 40px;
+                border-radius: 50px;
+                width: auto;
+            }
+
+            /* Hide everything else */
+            .background-shapes,
+            .app-footer {
+                display: none;
+            }
+
+            /* Hide Keyboard Hints on Desktop per request */
+            .kbd-hint {
+                display: none !important;
+            }
+        }
+
+        /* --- MOBILE/TABLET TWEAKS --- */
+        @media (max-width: 1023px) {
+
+            /* Reset to Normal Fonts for Mobile */
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .question-text {
+                font-size: 1.6rem;
+                margin-bottom: 20px;
+            }
+
+            .option-btn {
+                font-size: 1.2rem;
+                padding: 15px;
+            }
+
+            .nav-box {
+                font-size: 1rem;
+                padding: 10px;
+            }
+
+            .sidebar-wrapper {
+                /* flatten to normal flow */
+                display: contents;
+            }
+
+            #game-nav {
+                order: 2;
+                /* Push nav below questions */
+                margin-top: 30px;
+            }
+
+            .controls {
+                order: 3;
+                /* Push controls to bottom */
+                justify-content: center;
+                /* Center button */
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 400px;
+                border-radius: 50px;
+                font-size: 1.2rem;
+            }
+
+            /* Fix Result Overlay on Mobile */
+            .result-overlay {
+                padding: 20px;
+                /* Reduce padding */
+                align-items: flex-start;
+                /* Allow scrolling from top */
+            }
+
+            .result-content {
+                padding-top: 20px;
+                padding-bottom: 50px;
+                /* Space for scroll */
+            }
+
+            .score-circle {
+                width: 120px;
+                /* Smaller circle */
+                height: 120px;
+                font-size: 2.5rem;
+                margin: 10px auto;
+                border-width: 4px;
+            }
+
+            .result-content h2 {
+                font-size: 2rem !important;
+                /* Override inline style */
+                margin-bottom: 15px !important;
+            }
+
+            .score-text {
+                font-size: 1.2rem;
+                margin-bottom: 20px;
+            }
+        }
     </style>
 </head>
 
@@ -460,42 +770,38 @@
     <div class="quiz-container">
 
         <!-- Welcome / Game Screen -->
+        <!-- Welcome / Game Screen -->
         <header id="game-header">
             <h1>Simple Present Trainer</h1>
-            <div class="quiz-info">
-                <span id="question-counter">Soal 1 / 10</span>
-                <span id="score-display" style="display:none;">Score: 0</span>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
             </div>
         </header>
 
+        <!-- Question Section -->
         <!-- Question Section -->
         <div id="quiz-area">
             <!-- Questions will be injected here by JS -->
         </div>
 
-        <!-- Navigation Grid -->
-        <div id="game-nav" class="nav-grid"></div>
+        <!-- Sidebar Wrapper (Groups Nav + Controls for desktop sticky) -->
+        <div class="sidebar-wrapper">
+            <!-- Navigation Grid -->
+            <div id="game-nav" class="nav-grid"></div>
 
-        <!-- Controls -->
-        <div class="controls" id="game-controls">
-            <!-- Dynamic button (Next/Submit) -->
+            <!-- Controls -->
+            <div class="controls" id="game-controls">
+                <!-- Dynamic button (Next/Submit) -->
+            </div>
         </div>
 
         <!-- Result Section -->
-        <div id="result-area" class="results-section">
+        <!-- Result Trigger Section (Initially Hidden) -->
+        <div id="result-trigger" class="results-section" style="display: none;">
             <h2>Kuis Selesai!</h2>
-            <div class="score-circle" id="final-score">0</div>
-            <p class="score-text" id="status-message">Luar Biasa!</p>
-
-            <p style="margin-bottom: 20px; color: #636e72; font-style: italic;">
-                Enjoy endless practice! This app generates a new set of questions for every session.
-            </p>
-
-            <button class="btn" onclick="app.init()">Main Lagi</button>
-
-            <div class="review-list" id="review-container">
-                <!-- Review items injected here -->
-            </div>
+            <button class="btn" style="font-size: 2rem; padding: 20px 60px;" onclick="app.revealResults()">
+                Lihat Hasil Akhir
+            </button>
         </div>
 
         <!-- APP Footer -->
@@ -520,6 +826,43 @@
                 </svg>
             </a>
         </footer>
+    </div>
+
+    <!-- Real Result Modal (Moved Outside for Fixed Positioning) -->
+    <div id="result-overlay" class="result-overlay">
+        <div class="result-content">
+            <h2 style="font-size: 3rem; margin-bottom: 20px;">Hasil Kamu</h2>
+            <div class="score-circle" id="final-score">0</div>
+            <p class="score-text" id="status-message">Luar Biasa!</p>
+
+            <p style="margin-bottom: 30px; color: #636e72; font-size: 1.2rem;">
+                *Jawaban kamu telah diperiksa.
+            </p>
+
+            <div style="display: flex; gap: 20px; justify-content: center; margin-bottom: 40px;">
+                <button class="btn" onclick="app.init()">Main Lagi</button>
+
+            </div>
+
+            <!-- Detail Button Container (Injected via JS) -->
+            <div id="detail-btn-container"></div>
+        </div>
+    </div>
+
+    <!-- Review Detail Modal -->
+    <div id="review-modal" class="review-overlay">
+        <div class="result-content" style="text-align: left; max-width: 800px; margin: 0 auto;">
+            <div class="review-header">
+                <h2>Detail Jawaban</h2>
+                <button class="close-review-btn" onclick="app.closeReview()">&times;</button>
+            </div>
+            <div id="review-list-content" class="review-list" style="max-height: none;">
+                <!-- Content injected here -->
+            </div>
+            <div style="text-align: center; margin-top: 30px; margin-bottom: 50px;">
+                <button class="btn" onclick="app.closeReview()">Tutup</button>
+            </div>
+        </div>
     </div>
 
     </div>
@@ -696,51 +1039,51 @@
             { q: "What ____ you study at night?", a: ["do", "does", "are", "is"], correct: "do" },
             { q: "What ____ the dog chase?", a: ["does", "do", "is", "are"], correct: "does" },
             { q: "The scientist ____ complex experiments every week.", a: ["conducts", "conduct", "conducting", "conducted"], correct: "conducts" },
-    { q: "She ____ detailed notes during long lectures.", a: ["takes", "take", "taking", "taken"], correct: "takes" },
-    { q: "The manager ____ multiple projects simultaneously.", a: ["handles", "handle", "handling", "handled"], correct: "handles" },
-    { q: "He ____ advanced mathematics with ease.", a: ["solves", "solve", "solving", "solved"], correct: "solves" },
-    { q: "The programmer ____ efficient algorithms.", a: ["writes", "write", "writing", "written"], correct: "writes" },
-    { q: "They ____ strategic decisions carefully.", a: ["make", "makes", "making", "made"], correct: "make" },
-    { q: "The researcher ____ accurate data regularly.", a: ["collects", "collect", "collecting", "collected"], correct: "collects" },
-    { q: "We ____ complex problems logically.", a: ["analyze", "analyzes", "analyzing", "analyzed"], correct: "analyze" },
-    { q: "The engineer ____ innovative solutions.", a: ["designs", "design", "designing", "designed"], correct: "designs" },
-    { q: "She ____ abstract concepts quickly.", a: ["understands", "understand", "understanding", "understood"], correct: "understands" },
+            { q: "She ____ detailed notes during long lectures.", a: ["takes", "take", "taking", "taken"], correct: "takes" },
+            { q: "The manager ____ multiple projects simultaneously.", a: ["handles", "handle", "handling", "handled"], correct: "handles" },
+            { q: "He ____ advanced mathematics with ease.", a: ["solves", "solve", "solving", "solved"], correct: "solves" },
+            { q: "The programmer ____ efficient algorithms.", a: ["writes", "write", "writing", "written"], correct: "writes" },
+            { q: "They ____ strategic decisions carefully.", a: ["make", "makes", "making", "made"], correct: "make" },
+            { q: "The researcher ____ accurate data regularly.", a: ["collects", "collect", "collecting", "collected"], correct: "collects" },
+            { q: "We ____ complex problems logically.", a: ["analyze", "analyzes", "analyzing", "analyzed"], correct: "analyze" },
+            { q: "The engineer ____ innovative solutions.", a: ["designs", "design", "designing", "designed"], correct: "designs" },
+            { q: "She ____ abstract concepts quickly.", a: ["understands", "understand", "understanding", "understood"], correct: "understands" },
 
-    // NEGATIVE (ADVANCED / DIFFICULT)
-    { q: "She ____ not recognize subtle patterns easily.", a: ["does", "do", "is", "are"], correct: "does" },
-    { q: "They ____ not ignore critical feedback.", a: ["do", "does", "are", "is"], correct: "do" },
-    { q: "He ____ not accept incomplete information.", a: ["does", "do", "has", "is"], correct: "does" },
-    { q: "We ____ not underestimate difficult challenges.", a: ["do", "does", "are", "is"], correct: "do" },
-    { q: "The analyst ____ not rely on assumptions.", a: ["does", "do", "is", "are"], correct: "does" },
-    { q: "I ____ not overlook small details.", a: ["do", "does", "am", "is"], correct: "do" },
-    { q: "She ____ not follow outdated methods.", a: ["does", "do", "is", "has"], correct: "does" },
-    { q: "They ____ not delay important decisions.", a: ["do", "does", "are", "is"], correct: "do" },
-    { q: "The leader ____ not avoid responsibility.", a: ["does", "do", "is", "are"], correct: "does" },
-    { q: "We ____ not confuse theory with practice.", a: ["do", "does", "are", "is"], correct: "do" },
+            // NEGATIVE (ADVANCED / DIFFICULT)
+            { q: "She ____ not recognize subtle patterns easily.", a: ["does", "do", "is", "are"], correct: "does" },
+            { q: "They ____ not ignore critical feedback.", a: ["do", "does", "are", "is"], correct: "do" },
+            { q: "He ____ not accept incomplete information.", a: ["does", "do", "has", "is"], correct: "does" },
+            { q: "We ____ not underestimate difficult challenges.", a: ["do", "does", "are", "is"], correct: "do" },
+            { q: "The analyst ____ not rely on assumptions.", a: ["does", "do", "is", "are"], correct: "does" },
+            { q: "I ____ not overlook small details.", a: ["do", "does", "am", "is"], correct: "do" },
+            { q: "She ____ not follow outdated methods.", a: ["does", "do", "is", "has"], correct: "does" },
+            { q: "They ____ not delay important decisions.", a: ["do", "does", "are", "is"], correct: "do" },
+            { q: "The leader ____ not avoid responsibility.", a: ["does", "do", "is", "are"], correct: "does" },
+            { q: "We ____ not confuse theory with practice.", a: ["do", "does", "are", "is"], correct: "do" },
 
-    // INTERROGATIVE (ADVANCED / DIFFICULT)
-    { q: "____ she analyze complex situations effectively?", a: ["Does", "Do", "Is", "Are"], correct: "Does" },
-    { q: "____ they understand advanced concepts?", a: ["Do", "Does", "Are", "Is"], correct: "Do" },
-    { q: "____ he manage multiple responsibilities?", a: ["Does", "Do", "Has", "Is"], correct: "Does" },
-    { q: "____ we evaluate risks carefully?", a: ["Do", "Does", "Are", "Is"], correct: "Do" },
-    { q: "____ the system process data quickly?", a: ["Does", "Do", "Is", "Are"], correct: "Does" },
-    { q: "____ you recognize logical fallacies?", a: ["Do", "Does", "Are", "Is"], correct: "Do" },
-    { q: "____ she interpret abstract ideas?", a: ["Does", "Do", "Is", "Are"], correct: "Does" },
-    { q: "____ they develop innovative strategies?", a: ["Do", "Does", "Are", "Is"], correct: "Do" },
-    { q: "____ he identify hidden problems?", a: ["Does", "Do", "Has", "Is"], correct: "Does" },
-    { q: "____ we consider ethical implications?", a: ["Do", "Does", "Are", "Is"], correct: "Do" },
+            // INTERROGATIVE (ADVANCED / DIFFICULT)
+            { q: "____ she analyze complex situations effectively?", a: ["Does", "Do", "Is", "Are"], correct: "Does" },
+            { q: "____ they understand advanced concepts?", a: ["Do", "Does", "Are", "Is"], correct: "Do" },
+            { q: "____ he manage multiple responsibilities?", a: ["Does", "Do", "Has", "Is"], correct: "Does" },
+            { q: "____ we evaluate risks carefully?", a: ["Do", "Does", "Are", "Is"], correct: "Do" },
+            { q: "____ the system process data quickly?", a: ["Does", "Do", "Is", "Are"], correct: "Does" },
+            { q: "____ you recognize logical fallacies?", a: ["Do", "Does", "Are", "Is"], correct: "Do" },
+            { q: "____ she interpret abstract ideas?", a: ["Does", "Do", "Is", "Are"], correct: "Does" },
+            { q: "____ they develop innovative strategies?", a: ["Do", "Does", "Are", "Is"], correct: "Do" },
+            { q: "____ he identify hidden problems?", a: ["Does", "Do", "Has", "Is"], correct: "Does" },
+            { q: "____ we consider ethical implications?", a: ["Do", "Does", "Are", "Is"], correct: "Do" },
 
-    // WHAT QUESTIONS (ADVANCED / DIFFICULT)
-    { q: "What ____ she prioritize in difficult situations?", a: ["does", "do", "is", "are"], correct: "does" },
-    { q: "What ____ they analyze during research?", a: ["do", "does", "are", "is"], correct: "do" },
-    { q: "What ____ he conclude from the data?", a: ["does", "do", "is", "are"], correct: "does" },
-    { q: "What ____ we consider before making decisions?", a: ["do", "does", "are", "is"], correct: "do" },
-    { q: "What ____ the expert recommend?", a: ["does", "do", "is", "are"], correct: "does" },
-    { q: "What ____ you observe in the experiment?", a: ["do", "does", "are", "is"], correct: "do" },
-    { q: "What ____ she explain in detail?", a: ["does", "do", "is", "are"], correct: "does" },
-    { q: "What ____ they discover through analysis?", a: ["do", "does", "are", "is"], correct: "do" },
-    { q: "What ____ he predict about the outcome?", a: ["does", "do", "is", "are"], correct: "does" },
-    { q: "What ____ we understand from this theory?", a: ["do", "does", "are", "is"], correct: "do" }
+            // WHAT QUESTIONS (ADVANCED / DIFFICULT)
+            { q: "What ____ she prioritize in difficult situations?", a: ["does", "do", "is", "are"], correct: "does" },
+            { q: "What ____ they analyze during research?", a: ["do", "does", "are", "is"], correct: "do" },
+            { q: "What ____ he conclude from the data?", a: ["does", "do", "is", "are"], correct: "does" },
+            { q: "What ____ we consider before making decisions?", a: ["do", "does", "are", "is"], correct: "do" },
+            { q: "What ____ the expert recommend?", a: ["does", "do", "is", "are"], correct: "does" },
+            { q: "What ____ you observe in the experiment?", a: ["do", "does", "are", "is"], correct: "do" },
+            { q: "What ____ she explain in detail?", a: ["does", "do", "is", "are"], correct: "does" },
+            { q: "What ____ they discover through analysis?", a: ["do", "does", "are", "is"], correct: "do" },
+            { q: "What ____ he predict about the outcome?", a: ["does", "do", "is", "are"], correct: "does" },
+            { q: "What ____ we understand from this theory?", a: ["do", "does", "are", "is"], correct: "do" }
         ];
 
 
@@ -753,11 +1096,38 @@
                 // DOM Elements
                 this.quizArea = document.getElementById('quiz-area');
                 this.controls = document.getElementById('game-controls');
-                this.counter = document.getElementById('question-counter');
-                this.resultArea = document.getElementById('result-area');
+                this.progressBar = document.getElementById('progress-bar');
+                this.resultTrigger = document.getElementById('result-trigger');
+                this.resultOverlay = document.getElementById('result-overlay');
+                this.reviewModal = document.getElementById('review-modal');
                 this.header = document.getElementById('game-header');
 
+                // Keyboard Listener
+                document.addEventListener('keydown', (e) => this.handleInput(e));
+
                 this.init();
+            }
+
+            handleInput(e) {
+                // Ignore if quiz is hidden or not started
+                if (this.quizArea.style.display === 'none') return;
+
+                const key = e.key;
+
+                // Numbers 1-4 for options
+                if (key >= '1' && key <= '4') {
+                    const idx = parseInt(key) - 1;
+                    const optionsCount = this.dataset[this.currentQuestionIndex].options.length;
+                    if (idx < optionsCount) {
+                        this.selectOption(idx);
+                    }
+                }
+                // Enter for Next
+                else if (key === 'Enter') {
+                    // Prevent default form submission if any
+                    e.preventDefault();
+                    this.nextQuestion();
+                }
             }
 
             // --- Initialization Logic ---
@@ -768,7 +1138,10 @@
                 this.dataset = this.randomizeQuestions(masterData, 10);
 
                 // UI Reset
-                this.resultArea.style.display = 'none';
+                // UI Reset
+                this.resultTrigger.style.display = 'none';
+                this.resultOverlay.style.display = 'none';
+                this.reviewModal.style.display = 'none';
                 this.header.style.display = 'block';
                 this.quizArea.style.display = 'block';
                 this.controls.style.display = 'flex';
@@ -806,17 +1179,19 @@
             renderQuestion() {
                 const qData = this.dataset[this.currentQuestionIndex];
 
-                // Update Counter
-                this.counter.textContent = `Soal ${this.currentQuestionIndex + 1} / ${this.dataset.length}`;
+                // Update Progress Line
+                const progress = ((this.currentQuestionIndex + 1) / this.dataset.length) * 100;
+                this.progressBar.style.width = `${progress}%`;
 
-                // Build HTML for Question Card
+                // Build HTML for Question Card (Clean: No Labels)
                 this.quizArea.innerHTML = `
                     <div class="question-card active">
                         <div class="question-text">${qData.question}</div>
+
                         <div class="options-grid">
                             ${qData.options.map((opt, idx) => `
                                 <button class="option-btn" onclick="app.selectOption(${idx})" id="opt-${idx}">
-                                    ${String.fromCharCode(65 + idx)}. ${opt}
+                                    ${opt}
                                 </button>
                             `).join('')}
                         </div>
@@ -848,20 +1223,27 @@
             }
 
             // --- Interaction Logic ---
+            // --- Interaction Logic ---
             selectOption(idx) {
                 // Get value from index
                 const val = this.dataset[this.currentQuestionIndex].options[idx];
 
-                // Save answer
-                this.userAnswers[this.currentQuestionIndex] = val;
+                // Uncheck Logic: If clicking the same answer, deselect it
+                if (this.userAnswers[this.currentQuestionIndex] === val) {
+                    delete this.userAnswers[this.currentQuestionIndex];
+                    // Remove highlight from this button
+                    const btn = document.getElementById(`opt-${idx}`);
+                    if (btn) btn.classList.remove('selected');
+                } else {
+                    // New Selection
+                    this.userAnswers[this.currentQuestionIndex] = val;
+                    this.highlightOption(idx);
+                }
 
-                // UI Highlight
-                this.highlightOption(idx);
-
-                // Update Nav Grid to show answered status
+                // Update Nav Grid
                 this.updateNavGrid();
 
-                // Re-render controls to update button text from 'Lewati' to 'Lanjut'
+                // Re-render controls
                 this.renderControls();
             }
 
@@ -928,34 +1310,42 @@
 
             // --- Scoring & Results ---
             showResults() {
+                // Calculate Score Logic Immediate
                 let score = 0;
-                let reviewHTML = '';
 
+                // Store review HTML generation for openReview
+                this.lastReviewHTML = '';
                 this.dataset.forEach((q, idx) => {
                     const userAns = this.userAnswers[idx];
                     const isCorrect = userAns === q.correct;
                     if (isCorrect) score++;
 
-                    reviewHTML += `
+                    this.lastReviewHTML += `
                         <div class="review-item ${isCorrect ? 'correct' : 'wrong'}">
                             <div class="review-q">${idx + 1}. ${q.question}</div>
                             <div class="review-ans">
-                                Jawaban kamu: <span class="${isCorrect ? 'text-correct' : 'text-wrong'}">${userAns}</span>
+                                Jawaban kamu: <span class="${isCorrect ? 'text-correct' : 'text-wrong'}">${userAns || '-'}</span>
                                 ${!isCorrect ? `<br>Jawaban benar: <span class="text-correct">${q.correct}</span>` : ''}
                             </div>
                         </div>
                     `;
                 });
 
-                // Render Results
-                this.header.style.display = 'none';
-                this.quizArea.style.display = 'none';
-                this.controls.style.display = 'none';
-                document.getElementById('game-nav').style.display = 'none';
-                this.resultArea.style.display = 'block';
+                // Update UI elements
+                document.getElementById('final-score').textContent = score;
 
-                document.getElementById('final-score').textContent = `${score}/${this.dataset.length}`;
-                document.getElementById('review-container').innerHTML = reviewHTML;
+                // Toggle Button for Details -> Popup
+                const detailBtn = document.createElement('button');
+                detailBtn.className = 'btn';
+                detailBtn.style.marginTop = '20px';
+                detailBtn.style.background = '#6c5ce7';
+                detailBtn.textContent = 'Lihat Detail Jawaban';
+                detailBtn.onclick = () => {
+                    app.openReview();
+                };
+
+                // Clear trigger area just in case
+                this.resultTrigger.innerHTML = '';
 
                 // Status Message
                 const percentage = (score / this.dataset.length) * 100;
@@ -965,6 +1355,39 @@
                 else if (percentage >= 50) msg = "Lumayan, coba lagi ya!";
                 else msg = "Jangan menyerah, belajar lagi!";
                 document.getElementById('status-message').textContent = msg;
+
+                // Insert the toggle button after status message, before "Main Lagi"
+                let detailBtnContainer = document.getElementById('detail-btn-container');
+                if (!detailBtnContainer) {
+                    detailBtnContainer = document.createElement('div');
+                    detailBtnContainer.id = 'detail-btn-container';
+                    document.getElementById('status-message').after(detailBtnContainer);
+                }
+                detailBtnContainer.innerHTML = '';
+                detailBtnContainer.appendChild(detailBtn);
+
+                // Hide Quiz, Show Overlay Immediately
+                this.header.style.display = 'none';
+                this.quizArea.style.display = 'none';
+                this.controls.style.display = 'none';
+                document.getElementById('game-nav').style.display = 'none';
+                this.resultTrigger.style.display = 'none'; // Don't use trigger
+
+                this.resultOverlay.style.display = 'block';
+            }
+
+            openReview() {
+                const reviewContent = document.getElementById('review-list-content');
+                reviewContent.innerHTML = this.lastReviewHTML || '<p>Tidak ada data review.</p>';
+                this.reviewModal.style.display = 'block';
+            }
+
+            closeReview() {
+                this.reviewModal.style.display = 'none';
+            }
+
+            closeResults() {
+                this.resultOverlay.style.display = 'none';
             }
         }
 
